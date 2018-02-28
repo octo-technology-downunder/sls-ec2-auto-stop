@@ -1,0 +1,24 @@
+{
+  "name": "ec2-auto-stop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "autoStopEc2.js",
+  "dependencies": {
+    "aws-sdk": "^2.143.0",
+    "es6-promisify": "^6.0.0",
+    "slack-node": "^0.1.8"
+  },
+  "devDependencies": {
+    "serverless-sam": "0.0.4"
+  },
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:octo-technology-downunder/sls-ec2-auto-stop.git"
+  },
+  "keywords": [],
+  "author": "OCTO Technology AU",
+  "license": "Apache-2.0"
+}
