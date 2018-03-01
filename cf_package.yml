@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'SAM template for Serverless framework service: '
+Resources:
+  AutoStopEc2:
+    Policies:
+    - AmazonEC2FullAccess
+    - AWSLambdaFullAccess
+    - AmazonS3FullAccess
+    - CloudWatchFullAccess
+    - AmazonSESFullAccess
+    - AmazonSNSFullAccess
+    - AWSCloudTrailReadOnlyAccess
+    Properties:
+      CodeUri: s3://serverless-public/ec2-auto-stop/200ce4774af6793e00e5c575c2792d4c
+      Events:
+        Event1:
+          Properties:
+            Schedule: cron(0 10 ? * MON-FRI *)
+          Type: Schedule
+      Handler: autoStopEc2.handler
+      MemorySize: 128
+      Runtime: nodejs6.10
+      Timeout: 30
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31
