@@ -11,7 +11,7 @@ Resources:
     - AmazonSNSFullAccess
     - AWSCloudTrailReadOnlyAccess
     Properties:
-      CodeUri: s3://serverless-public/ec2-auto-stop/200ce4774af6793e00e5c575c2792d4c
+      CodeUri: https://s3-ap-southeast-2.amazonaws.com/serverless-public/ec2-auto-stop/200ce4774af6793e00e5c575c2792d4c
       Events:
         Event1:
           Properties:
