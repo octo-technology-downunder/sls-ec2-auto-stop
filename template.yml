@@ -1,37 +1,26 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: 'AWS::Serverless-2016-10-31'
-Description: 'SAM template for Serverless framework service: ec2-auto-stop'
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+Description: "SAM template for Serverless framework service: "
+
 Resources:
-  infraLambda:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      RoleName: ec2-auto-stop-role
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - lambda.amazonaws.com
-            Action: 'sts:AssumeRole'
-      ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/AmazonEC2FullAccess'
-        - 'arn:aws:iam::aws:policy/AWSLambdaFullAccess'
-        - 'arn:aws:iam::aws:policy/AmazonS3FullAccess'
-        - 'arn:aws:iam::aws:policy/CloudWatchFullAccess'
-        - 'arn:aws:iam::aws:policy/AmazonSESFullAccess'
-        - 'arn:aws:iam::aws:policy/AmazonSNSFullAccess'
-        - 'arn:aws:iam::aws:policy/AWSCloudTrailReadOnlyAccess'
-      Path: /
   AutoStopEc2:
-    Type: 'AWS::Serverless::Function'
+    Type: "AWS::Serverless::Function"
     Properties:
       Handler: autoStopEc2.handler
       Runtime: nodejs6.10
       MemorySize: 128
-      Timeout: 3
+      Timeout: 30
+      CodeUri: .
       Events:
         Event1:
           Type: Schedule
           Properties:
             Schedule: cron(0 10 ? * MON-FRI *)
+    Policies:
+      - AmazonEC2FullAccess
+      - AWSLambdaFullAccess
+      - AmazonS3FullAccess
+      - CloudWatchFullAccess
+      - AmazonSESFullAccess
+      - AmazonSNSFullAccess
+      - AWSCloudTrailReadOnlyAccess
