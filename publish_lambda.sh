@@ -16,7 +16,7 @@ if [[ -z "$lambda_name_exists" ]]; then
 fi
 
 version='0.1.1'
-source_code_url="https://github.com/octo-technology-downunder/sls-ec2-auto-stop"
+source_code_url="github.com"
 
 if [[ ${lambda_exists} ]]; then
     echo "Lambda found"
