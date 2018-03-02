@@ -58,3 +58,4 @@ typings/
 .env
 
 serverless.yml
+.idea
