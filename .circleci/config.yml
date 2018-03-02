@@ -1,21 +1,13 @@
 version: 2
-
-dependencies:
-  pre:
-    - pip install awscli
-
 jobs:
   build:
     docker:
       - image: circleci/node:6.10
-      - image: circleci/python:3.6.4
-
 
     working_directory: ~/ec2-autostop
 
     steps:
       - checkout
-      - run : pip install awscli
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -33,6 +25,11 @@ jobs:
       - run: npm test
 
   deploy:
+    machine:
+      pre:
+        - pip install awscli
+    docker:
+      - image: circleci/python:3.6.4
     steps:
       - run:
           command: |
