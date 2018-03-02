@@ -8,14 +8,14 @@ jobs:
   build:
     docker:
       - image: circleci/node:6.10
+      - image: circleci/python:3.6.4
 
-    working_directory: ~/repo
 
-
+    working_directory: ~/ec2-autostop
 
     steps:
       - checkout
-
+      - run : pip install awscli
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -32,8 +32,8 @@ jobs:
 
       - run: npm test
 
-deployment:
-  production:
-    branch: master
-    commands:
-      - ./publish_lambda.sh
+  deploy:
+    steps:
+      - run:
+          command: |
+            ./publish_lambda.sh
