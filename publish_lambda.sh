@@ -5,10 +5,10 @@ lambda_name="ec2-autostop"
 new_template_file="template_s3.yml"
 
 #Packaging and sending package to S3, updating template with S3 URI
-aws cloudformation package --template-file template.yml --s3-bucket serverless-public --s3-prefix $lambda_name --output-template-file $new_template_file
+aws cloudformation package --template-file template.yml --s3-bucket serverless-public --s3-prefix $lambda_name --output-template-file $new_template_file --region ap-southeast-2
 
 # Verify if lambda already published
-lambda_name_exists=$(aws serverlessrepo list-applications --query "Applications[?Name==\`$lambda_name\`].Name" --output text)
+lambda_name_exists=$(aws serverlessrepo list-applications --query "Applications[?Name==\`$lambda_name\`].Name" --output text --region ap-southeast-2)
 lambda_exists=true
 if [[ -z "$lambda_name_exists" ]]; then
     echo "Lambda not found"
@@ -20,13 +20,14 @@ source_code_url='https://github.com/octo-technology-downunder/sls-ec2-auto-stop.
 
 if [[ $lambda_exists ]]; then
     echo "Lambda found"
-    lambda_id=$(aws serverlessrepo list-applications --query "Applications[?Name==\`$lambda_name\`].ApplicationId" --output text)
+    lambda_id=$(aws serverlessrepo list-applications --query "Applications[?Name==\`$lambda_name\`].ApplicationId" --output text --region ap-southeast-2)
     echo "Application id is $lambda_id"
     aws serverlessrepo create-application-version \
     --application-id $lambda_id \
     --semantic-version $version \
     --source-code-url $source_code_url \
-    --template-body $new_template_file
+    --template-body $new_template_file \
+    --region ap-southeast-2
 else
     aws serverlessrepo create-application \
     --author "Octo Technology" \
@@ -37,5 +38,6 @@ else
     --semantic-version $version \
     --source-code-url $source_code_url \
     --spdx-license-id Apache-2.0 \
-    --template-body $new_template_file
+    --template-body $new_template_file \
+    --region ap-southeast-2
 fi
