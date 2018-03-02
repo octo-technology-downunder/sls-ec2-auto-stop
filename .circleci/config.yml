@@ -6,6 +6,10 @@ jobs:
 
     working_directory: ~/repo
 
+  dependencies:
+    pre:
+      - pip install awscli
+
     steps:
       - checkout
 
