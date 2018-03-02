@@ -1,14 +1,16 @@
 version: 2
 jobs:
+  dependencies:
+    pre:
+      - pip install awscli
+
   build:
     docker:
       - image: circleci/node:6.10
 
     working_directory: ~/repo
 
-  dependencies:
-    pre:
-      - pip install awscli
+
 
     steps:
       - checkout
@@ -28,4 +30,9 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: npm test
-      - run: ./publish_lambda.sh
+
+  deployment:
+    production:
+      branch: master
+      commands:
+        - ./publish_lambda.sh
