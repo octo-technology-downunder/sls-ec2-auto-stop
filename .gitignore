@@ -59,3 +59,4 @@ typings/
 
 serverless.yml
 .idea
+template_s3.yml
