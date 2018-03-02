@@ -16,17 +16,17 @@ if [[ -z "$lambda_name_exists" ]]; then
 fi
 
 version='0.1.1'
-source_code_url='https://github.com/octo-technology-downunder/sls-ec2-auto-stop.git'
+source_code_url='https://github.com/octo-technology-downunder/sls-ec2-auto-stop'
 
-if [[ $lambda_exists ]]; then
+if [[ ${lambda_exists} ]]; then
     echo "Lambda found"
     lambda_id=$(aws serverlessrepo list-applications --query "Applications[?Name==\`$lambda_name\`].ApplicationId" --output text --region ap-southeast-2)
     echo "Application id is $lambda_id"
     aws serverlessrepo create-application-version \
-    --application-id $lambda_id \
-    --semantic-version $version \
-    --source-code-url $source_code_url \
-    --template-body $new_template_file \
+    --application-id ${lambda_id} \
+    --semantic-version ${version} \
+    --source-code-url ${source_code_url} \
+    --template-body ${new_template_file} \
     --region ap-southeast-2
 else
     aws serverlessrepo create-application \
@@ -36,7 +36,7 @@ else
     --labels EC2 \
     --name $lambda_name \
     --semantic-version $version \
-    --source-code-url $source_code_url \
+    --source-code-url ${source_code_url} \
     --spdx-license-id Apache-2.0 \
     --template-body $new_template_file \
     --region ap-southeast-2
