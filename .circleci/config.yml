@@ -1,9 +1,10 @@
 version: 2
-jobs:
-  dependencies:
-    pre:
-      - pip install awscli
 
+dependencies:
+  pre:
+    - pip install awscli
+
+jobs:
   build:
     docker:
       - image: circleci/node:6.10
@@ -31,8 +32,8 @@ jobs:
 
       - run: npm test
 
-  deployment:
-    production:
-      branch: master
-      commands:
-        - ./publish_lambda.sh
+deployment:
+  production:
+    branch: master
+    commands:
+      - ./publish_lambda.sh
