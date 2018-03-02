@@ -33,7 +33,7 @@ jobs:
     steps:
       - run:
           name: Install Python deps
-          command: pip install -r requirements/dev.txt
+          command: pip install awscli
       - run:
           name: Publish on Serverless repository
           command: bash publish_lambda.sh
