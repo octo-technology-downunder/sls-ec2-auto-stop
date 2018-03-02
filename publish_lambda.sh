@@ -16,7 +16,7 @@ if [[ -z "$lambda_name_exists" ]]; then
 fi
 
 version='0.1.1'
-source_code_url='https://github.com/octo-technology-downunder/sls-ec2-auto-stop'
+source_code_url="https://github.com/octo-technology-downunder/sls-ec2-auto-stop"
 
 if [[ ${lambda_exists} ]]; then
     echo "Lambda found"
@@ -25,7 +25,7 @@ if [[ ${lambda_exists} ]]; then
     aws serverlessrepo create-application-version \
     --application-id ${lambda_id} \
     --semantic-version ${version} \
-    --source-code-url "`${source_code_url}`" \
+    --source-code-url ${source_code_url} \
     --template-body ${new_template_file} \
     --region ap-southeast-2
 else
