@@ -4,6 +4,19 @@ set -ex
 lambda_name="ec2-autostop"
 new_template_file="template_s3.yml"
 
+# Usage: increment_version <version> [<position>]
+increment_version() {
+    local v=$1
+    if [ -z $2 ]; then
+       local rgx='^((?:[0-9]+\.)*)([0-9]+)($)'
+    else
+       local rgx='^((?:[0-9]+\.){'$(($2-1))'})([0-9]+)(\.|$)'
+       for (( p=`grep -o "\."<<<".$v"|wc -l`; p<$2; p++)); do
+          v+=.0; done; fi
+    val=`echo -e "$v" | perl -pe 's/^.*'$rgx'.*$/$2/'`
+    return "$v" | perl -pe s/$rgx.*$'/${1}'`printf %0${#val}s $(($val+1))`/
+}
+
 #Packaging and sending package to S3, updating template with S3 URI
 aws cloudformation package --template-file template.yml --s3-bucket serverless-public --s3-prefix $lambda_name --output-template-file $new_template_file --region ap-southeast-2
 
@@ -20,7 +33,7 @@ source_code_url='git@github.com:octo-technology-downunder/sls-ec2-auto-stop.git'
 if [[ ${lambda_exists} ]]; then
     echo "Lambda found"
     lambda_id=$(aws serverlessrepo list-applications --query "Applications[?Name==\`$lambda_name\`].ApplicationId" --output text --region ap-southeast-2)
-    lambda_version=$(aws serverlessrepo get-application --application-id ${lambda_id} --query "Version.SemanticVersion" --output text --region ap-southeast-2)
+    lambda_version=increment_version $(aws serverlessrepo get-application --application-id ${lambda_id} --query "Version.SemanticVersion" --output text --region ap-southeast-2) 2
     echo "Application id is $lambda_id"
     aws serverlessrepo create-application-version \
     --application-id ${lambda_id} \
