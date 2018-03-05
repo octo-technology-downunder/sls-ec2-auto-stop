@@ -16,7 +16,7 @@ if [[ -z "$lambda_name_exists" ]]; then
 fi
 
 version='0.1.1'
-source_code_url='github.com'
+source_code_url='git@github.com:octo-technology-downunder/sls-ec2-auto-stop.git'
 
 if [[ ${lambda_exists} ]]; then
     echo "Lambda found"
@@ -26,7 +26,7 @@ if [[ ${lambda_exists} ]]; then
     --application-id ${lambda_id} \
     --semantic-version ${version} \
     --source-code-url ${source_code_url} \
-    --template-body ${new_template_file} \
+    --template-body "`cat ./template_s3.yml`" \
     --region ap-southeast-2
 else
     aws serverlessrepo create-application \
@@ -38,6 +38,6 @@ else
     --semantic-version $version \
     --source-code-url ${source_code_url} \
     --spdx-license-id Apache-2.0 \
-    --template-body $new_template_file \
+    --template-body "`cat ./template_s3.yml`" \
     --region ap-southeast-2
 fi
